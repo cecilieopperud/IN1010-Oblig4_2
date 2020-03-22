@@ -1,9 +1,10 @@
 class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
   String legeNavn; //protected variabel legeNavn slik at den er tilgjengelig for subklasser.
   Lenkeliste<Resepter> utskrevedeResepter = new Lenkeliste<Resepter>();
-
+  Lege denneLegen;
   public Lege(String navn) { //Konstruktoer som tar imot en String navn.
     legeNavn = navn; //settes som verdien til legeNavn.
+
   }
 
   public String hentNavn() { //Metode for aa hente legeNavn.
@@ -16,17 +17,17 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
 
   @Override
   public int compareTo(Lege lege){
-    return (this.legeNavn.compareTo(lege.hentNavn()));
+    return (legeNavn.compareTo(lege.hentNavn()));
   }
 
   public Lenkeliste<Resepter> hentUtResepter(){
-    return this.utskrevedeResepter;
+    return utskrevedeResepter;
   }
 
-  public HvitResept skrivHvitResept(Legemiddel legemiddel, Lege lege, Pasient pasient, int reit) throws UlovligUtskrift{
-    HvitResept hResept = new HvitResept(legemiddel, lege, pasient, reit);
+  public HvitResept skrivHvitResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift{
+    HvitResept hResept = new HvitResept(legemiddel , denneLegen , pasient, reit);
     if (hResept.hentLegemiddel() instanceof Narkotisk) {
-      throw new UlovligUtskrift(lege, legemiddel, pasient.hentID());
+      throw new UlovligUtskrift( denneLegen, legemiddel, pasient.hentID());
     }
     else{
       utskrevedeResepter.leggTil(hResept);
@@ -35,10 +36,10 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
     }
   }
 
-  public MilaeterResept skrivMillitaerResept(Legemiddel legemiddel, Lege lege, Pasient pasient, int reit) throws UlovligUtskrift {
-    MilaeterResept mResept = new MilaeterResept(legemiddel, lege, pasient, reit);
+  public MilaeterResept skrivMillitaerResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift {
+    MilaeterResept mResept = new MilaeterResept(legemiddel, denneLegen, pasient, reit);
     if (mResept.hentLegemiddel() instanceof Narkotisk) {
-      throw new UlovligUtskrift(lege, legemiddel, pasient.hentID());
+      throw new UlovligUtskrift( denneLegen, legemiddel, pasient.hentID());
     }
     else{
       utskrevedeResepter.leggTil(mResept);
@@ -47,10 +48,10 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
     }
   }
 
-  public PResept skrivPResept(Legemiddel legemiddel, Lege lege, Pasient pasient) throws UlovligUtskrift{
-    PResept pResept = new PResept(legemiddel, lege, pasient);
+  public PResept skrivPResept(Legemiddel legemiddel, Pasient pasient) throws UlovligUtskrift{
+    PResept pResept = new PResept(legemiddel ,denneLegen, pasient);
       if (pResept.hentLegemiddel() instanceof Narkotisk){
-        throw new UlovligUtskrift(lege, legemiddel, pasient.hentID());
+        throw new UlovligUtskrift( denneLegen, legemiddel, pasient.hentID());
       }
       else{
         utskrevedeResepter.leggTil(pResept);
@@ -59,15 +60,20 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
       }
     }
 
-  public BlaaResept skrivBlaaResept(Legemiddel legemiddel, Lege lege, Pasient pasient, int reit) throws UlovligUtskrift {
-    BlaaResept bResept = new BlaaResept(legemiddel, lege, pasient, reit);
+  public BlaaResept skrivBlaaResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift {
+
+    BlaaResept bResept = new BlaaResept(legemiddel , denneLegen, pasient, reit);
+
     if (bResept.hentLegemiddel() instanceof Narkotisk) {
-      throw new UlovligUtskrift(lege, legemiddel, pasient.hentID());
+      throw new UlovligUtskrift(denneLegen, legemiddel, pasient.hentID());
     }
+
     else{
       utskrevedeResepter.leggTil(bResept);
       pasient.leggTilResept(bResept);
       return bResept;
     }
   }
+
 }
+
