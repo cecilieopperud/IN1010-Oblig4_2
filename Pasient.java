@@ -6,14 +6,16 @@
 //reseptlisten.
 
 
+
+
 public class Pasient {
 	static int ID = 0;
 	String fodselsnummer;
 	String navn;
 	Stabel<Resepter> stabel = new Stabel<Resepter>();
 
-	public Pasient(String n, int f){
-    	fodselsnummer = Integer.toString(f);  
+	public Pasient(String n, String f){
+    	fodselsnummer = f;
 			navn = n;
     	ID ++;
     }
